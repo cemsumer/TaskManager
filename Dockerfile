@@ -21,8 +21,8 @@ ENV POSTGRES_SERVER="34.173.232.240"
 ENV POSTGRES_USER="postgres"
 ENV POSTGRES_PASSWORD="berke1234"
 ENV POSTGRES_DB="postgres"
-ENV FIRST_SUPERUSER="admin@example.com"
-ENV FIRST_SUPERUSER_PASSWORD="changeme"
+ENV FIRST_SUPERUSER="bakan@sabanciuniv.edu"
+ENV FIRST_SUPERUSER_PASSWORD="berke1234"
 
 # Uygulamayı başlat
 CMD ["sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port 8000"]

@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
         - name: taskmanager
-          image: us-central1-docker.pkg.dev/taskmanager-project-460020/taskmanager-repo/taskmanager-api
+          image: us-central1-docker.pkg.dev/taskmanager-project-460020/taskmanager-repo/taskmanager-api:3.0
           ports:
             - containerPort: 8080
