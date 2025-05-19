@@ -17,11 +17,14 @@ RUN pip install --no-cache-dir -r /app/requirements.txt
 
 # Ortam değişkenlerini tanımla
 ENV PROJECT_NAME="Task Manager"
-ENV POSTGRES_SERVER="localhost"
+ENV POSTGRES_SERVER="34.173.232.240"
 ENV POSTGRES_USER="postgres"
+ENV POSTGRES_PASSWORD="berke1234"
+ENV POSTGRES_DB="postgres"
 ENV FIRST_SUPERUSER="admin@example.com"
 ENV FIRST_SUPERUSER_PASSWORD="changeme"
 
 # Uygulamayı başlat
-CMD ["python", "-m", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8080"]
+CMD ["sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port 8000"]
+
 

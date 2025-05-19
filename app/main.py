@@ -6,6 +6,9 @@ from starlette.middleware.cors import CORSMiddleware
 from app.api.main import api_router
 from app.core.config import settings
 
+# yeni eklenenlar:
+from sqlmodel import Session
+from app.core.db import engine, init_db 
 
 def custom_generate_unique_id(route: APIRoute) -> str:
     return f"{route.tags[0]}-{route.name}"
@@ -29,5 +32,14 @@ if settings.all_cors_origins:
         allow_methods=["*"],
         allow_headers=["*"],
     )
+
+
+# **Startup event**
+@app.on_event("startup")
+def on_startup():
+    # SQLModel engine hazır, şimdi session ile init_db'yi çağır
+    with Session(engine) as session:
+        init_db(session)
+
 
 app.include_router(api_router, prefix=settings.API_V1_STR)
