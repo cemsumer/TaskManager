@@ -115,14 +115,17 @@ def delete_item(
 
 def trigger_task_notification(event_type: str, item, user_email: str):
     url = "https://us-central1-taskmanager-project-460020.cloudfunctions.net/notify_task_event"
+
     payload = {
-        "task_id": str(item.id),
+        "task_id": str(getattr(item, "id", uuid.uuid4())),
         "event": event_type,
-        "user_email": user_email,
-        "task_title": item.title,  # assuming Item has title
+        "user_email": user_email or "unknown@example.com",
+        "task_title": getattr(item, "title", "Untitled Task"),
         "timestamp": datetime.utcnow().isoformat()
     }
+
     try:
-        requests.post(url, json=payload, timeout=3)
+        response = requests.post(url, json=payload, timeout=3)
+        response.raise_for_status()
     except Exception as e:
         print(f"⚠ Failed to notify Cloud Function: {e}")
