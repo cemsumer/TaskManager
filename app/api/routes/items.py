@@ -1,5 +1,7 @@
 import uuid
 from typing import Any
+import requests
+from datetime import datetime
 
 from fastapi import APIRouter, HTTPException
 from sqlmodel import func, select
@@ -65,6 +67,7 @@ def create_item(
     session.add(item)
     session.commit()
     session.refresh(item)
+    trigger_task_notification("created", item, current_user.email)
     return item
 
 
@@ -89,6 +92,7 @@ def update_item(
     session.add(item)
     session.commit()
     session.refresh(item)
+    trigger_task_notification("updated", item, current_user.email)
     return item
 
 
@@ -106,4 +110,19 @@ def delete_item(
         raise HTTPException(status_code=400, detail="Not enough permissions")
     session.delete(item)
     session.commit()
+    trigger_task_notification("deleted", item, current_user.email)
     return Message(message="Item deleted successfully")
+
+def trigger_task_notification(event_type: str, item, user_email: str):
+    url = "https://us-central1-taskmanager-project-460020.cloudfunctions.net/notify_task_event"
+    payload = {
+        "task_id": str(item.id),
+        "event": event_type,
+        "user_email": user_email,
+        "task_title": item.title,  # assuming Item has title
+        "timestamp": datetime.utcnow().isoformat()
+    }
+    try:
+        requests.post(url, json=payload, timeout=3)
+    except Exception as e:
+        print(f"⚠ Failed to notify Cloud Function: {e}")
