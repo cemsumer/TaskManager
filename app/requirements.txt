@@ -16,3 +16,4 @@ typing_extensions
 uvicorn
 psycopg
 python-multipart
+bcrypt
