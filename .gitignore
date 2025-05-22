@@ -1,0 +1,22 @@
+# Ignore virtual environments
+venv/
+ENV/
+env/
+.venv/
+
+# Ignore Python bytecode and cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Ignore environment variable files (if needed)
+.env
+.env.*
+
+# Ignore VS Code settings (optional)
+.vscode/
+
+# Ignore logs and test artifacts
+*.log
+*.pytest_cache/
